@@ -12,14 +12,3 @@ RUN uv sync --locked
 COPY ingest_data.py . 
 
 ENTRYPOINT ["python", "ingest_data.py"]
-
-docker run -it --rm ingest_data.py \
-taxi_ingest:v001 \
-  --pg-user=root \
-  --pg-pass=root \
-  --pg-host=localhost \
-  --pg-port=5432 \
-  --pg-db=ny_taxi \
-  --target-table=yellow_taxi_trips \
-> --year=2021 \
-> --month=2\
