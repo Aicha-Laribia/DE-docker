@@ -9,6 +9,17 @@ ENV PATH="/code/.venv/bin:$PATH"
 COPY pyproject.toml .python-version uv.lock ./   
 RUN uv sync --locked 
 # this will install the dependencies specified in the uv.lock file, ensuring that we have a consistent environment for our application
-COPY pipeline.py . 
+COPY ingest_data.py . 
 
-ENTRYPOINT ["python", "pipeline.py"]
+ENTRYPOINT ["python", "ingest_data.py"]
+
+docker run -it --rm ingest_data.py \
+taxi_ingest:v001 \
+  --pg-user=root \
+  --pg-pass=root \
+  --pg-host=localhost \
+  --pg-port=5432 \
+  --pg-db=ny_taxi \
+  --target-table=yellow_taxi_trips \
+> --year=2021 \
+> --month=2\
